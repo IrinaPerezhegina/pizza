@@ -26,7 +26,8 @@ export const Categories: React.FC<Props> = ({ className }) => {
           key={index}
           className={cn(
             "flex items-center font-bold h-11 rounded-2xl px-5",
-            className
+            activeCat === index &&
+              "bg-white shadow-md shadow-gray-200 text-primary"
           )}
         >
           <button>{cat}</button>
@@ -35,4 +36,3 @@ export const Categories: React.FC<Props> = ({ className }) => {
     </div>
   );
 };
-// 56:35
