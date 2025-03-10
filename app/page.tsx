@@ -1,4 +1,10 @@
-import { Container, Filters, Title, TopBar } from "@/components/shared";
+import {
+  Container,
+  Filters,
+  ProductCard,
+  Title,
+  TopBar,
+} from "@/components/shared";
 
 export default function Home() {
   return (
@@ -17,10 +23,13 @@ export default function Home() {
 
           {/*Список товаров   */}
           <div className="flex-1">
-            <div className="flex flex-col gap-16">Список товаров</div>
+            <div className="flex flex-col gap-16">
+              <ProductCard id={34} imageUrl="ccc" name="ccc" price={200} />
+            </div>
           </div>
         </div>
       </Container>
     </>
   );
 }
+// 2:00:12
