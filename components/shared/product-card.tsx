@@ -31,6 +31,7 @@ export const ProductCard: React.FC<Props> = ({
           Цыпленок, моцырелла, сыры чеддер и пармезан, сырный соус, томаты, соус
           альфредо, чеснок
         </p>
+        
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">
             от <b>{price} ₽</b>
