@@ -37,13 +37,18 @@ export const Filters: React.FC<Props> = ({ className }) => {
     priceFrom: Number(searchParams.get("priceFrom")) || undefined,
     priceTo: Number(searchParams.get("priceTo")) || undefined,
   });
+
   const [sizes, { toggle: toggleSizes }] = useSet(
     new Set<string>(
       searchParams.get("sizes") ? searchParams.get("sizes")?.split(",") : []
     )
   );
   const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
-    new Set<string>([])
+    new Set<string>(
+      searchParams.has("pizzaTypes")
+        ? searchParams.get("pizzaTypes")?.split(",")
+        : []
+    )
   );
 
   const items = ingredients.map((item) => ({
