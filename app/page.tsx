@@ -18,13 +18,19 @@ export default async function Home() {
       },
     },
   });
+  console.log(categories[0].products);
+
   return (
     <>
       <Container className="mt-10">
         <Title text="Все пиццы" className="font-extrabold" size="lg" />
       </Container>
 
-      <TopBar />
+      <TopBar
+        categories={categories.filter(
+          (category) => category.products.length > 0
+        )}
+      />
       <Container className="pb-14 mt-10">
         <div className="flex gap-[70px]">
           {/*Фильтрация  */}
