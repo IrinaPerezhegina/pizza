@@ -1,4 +1,10 @@
-import { Container, ProductImage, Title } from "@/components/shared";
+"use client";
+import {
+  Container,
+  GroupVariants,
+  ProductImage,
+  Title,
+} from "@/components/shared";
 import { prisma } from "@/prisma/prisma-client";
 import { notFound } from "next/navigation";
 
@@ -16,18 +22,38 @@ export default async function ProductPage({
   return (
     <Container className="flex flex-col my-10">
       <div className="flex flex-1">
-        <ProductImage size={40} imageUrl={product.imageUrl} className="" />
-        <div className="w-[490px] bg-[#FCFCFC] p-7">
+        <ProductImage size={40} imageUrl={product.imageUrl} />
+        <div className="w-[490px] bg-[#f7f6f5] p-7">
           <Title
             text={product.name}
             size="md"
             className="font-extrabold mb-1"
           />
           <p className="text-gray-400">info</p>
+          <GroupVariants
+            selectedValue="2"
+            onClick={() => {}}
+            items={[
+              {
+                name: "Маленькая",
+                value: "1",
+                disabled: false,
+              },
+              {
+                name: "Средняя",
+                value: "2",
+                disabled: false,
+              },
+              {
+                name: "Большая",
+                value: "3",
+                disabled: true,
+              },
+            ]}
+          />
         </div>
       </div>
     </Container>
   );
 }
-
-// 7:46:00
+// 7:56:26

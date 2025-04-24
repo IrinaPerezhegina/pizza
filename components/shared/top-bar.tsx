@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Category } from "@prisma/client";
 import * as React from "react";
