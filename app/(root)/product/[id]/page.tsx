@@ -1,4 +1,3 @@
-"use client";
 import {
   Container,
   GroupVariants,
@@ -32,7 +31,6 @@ export default async function ProductPage({
           <p className="text-gray-400">info</p>
           <GroupVariants
             selectedValue="2"
-            onClick={() => {}}
             items={[
               {
                 name: "Маленькая",
@@ -56,4 +54,3 @@ export default async function ProductPage({
     </Container>
   );
 }
-// 7:56:26
