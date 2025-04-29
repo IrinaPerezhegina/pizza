@@ -11,7 +11,7 @@ type Variant = {
 interface Props {
   className?: string;
   items: readonly Variant[];
-  onClick: (value: Variant["value"]) => void;
+  onClick?: (value: Variant["value"]) => void;
   selectedValue?: Variant["value"];
 }
 
