@@ -20,6 +20,7 @@ export default async function ProductModalPage({
   if (!product) {
     return notFound();
   }
+
   return <ChooseProductModal product={product} />;
 }
 // 8:41:37
