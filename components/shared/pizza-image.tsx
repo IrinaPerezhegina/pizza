@@ -4,10 +4,10 @@ import * as React from "react";
 interface Props {
   className?: string;
   imageUrl: string;
-  size: number;
+  size: 20 | 30 | 40;
 }
 
-export const ProductImage: React.FC<Props> = ({
+export const PizzaImage: React.FC<Props> = ({
   size,
   imageUrl,
   className,
