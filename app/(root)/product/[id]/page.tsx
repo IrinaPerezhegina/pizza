@@ -1,10 +1,10 @@
+import { prisma } from "@/prisma/prisma-client";
 import {
   Container,
   GroupVariants,
-  ProductImage,
+  PizzaImage,
   Title,
-} from "@/components/shared";
-import { prisma } from "@/prisma/prisma-client";
+} from "@/shared/components/shared";
 import { notFound } from "next/navigation";
 
 export default async function ProductPage({
@@ -21,7 +21,7 @@ export default async function ProductPage({
   return (
     <Container className="flex flex-col my-10">
       <div className="flex flex-1">
-        <ProductImage size={40} imageUrl={product.imageUrl} />
+        <PizzaImage size={40} imageUrl={product.imageUrl} />
         <div className="w-[490px] bg-[#f7f6f5] p-7">
           <Title
             text={product.name}
