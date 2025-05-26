@@ -1,3 +1,5 @@
+export { CartButton } from "./cart-button";
+export { CartDrawer } from "./cart-drawer";
 export { Categories } from "./categories";
 export { CheckboxFiltersGroup } from "./checkbox-filters-group";
 export { ChoosePizzaForm } from "./choose-pizza-form";
