@@ -5,6 +5,7 @@ import { Dialog, DialogContent } from "@/shared/components/ui";
 import { cn } from "@/shared/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { DialogTitle } from "../../ui/dialog";
 import { ChoosePizzaForm } from "../choose-pizza-form";
 import { ChooseProductForm } from "../choose-product-form";
 
@@ -18,6 +19,7 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
   const isPizzaForm = Boolean(product.variants[0].pizzaType);
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
+      <DialogTitle></DialogTitle>
       <DialogContent
         className={cn(
           "p-0 w-[1060px] max-w-[1060px] min-h-[550px] bg-white overflow-hidden",
@@ -27,8 +29,9 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
         {isPizzaForm ? (
           <ChoosePizzaForm
             imageUrl={product.imageUrl}
-            ingredients={[]}
+            ingredients={product.ingredients}
             name={product.name}
+            items={product.variants}
           />
         ) : (
           <ChooseProductForm imageUrl={product.imageUrl} name={product.name} />
