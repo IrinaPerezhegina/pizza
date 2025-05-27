@@ -1,4 +1,5 @@
 import {
+  Button,
   Sheet,
   SheetContent,
   SheetFooter,
@@ -6,6 +7,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import * as React from "react";
 
 interface Props {
@@ -20,7 +23,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="flex flex-col justify-between pb-0 bg-[#f4f1ee]">
+      <SheetContent className="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
         <SheetHeader>
           <SheetTitle>
             В корзине <span className="font-bold">3 товара</span>
@@ -36,6 +39,12 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
               </span>
               <span className="font-bold text-lg">{"totalAmount"} ₽</span>
             </div>
+            <Link href={"/cart"}>
+              <Button type="submit" className="w-full h-12 text-base">
+                Оформить заказ
+                <ArrowRight className="w-5 ml-2" />
+              </Button>
+            </Link>
           </div>
         </SheetFooter>
       </SheetContent>
