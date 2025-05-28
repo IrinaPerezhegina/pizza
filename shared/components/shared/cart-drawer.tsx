@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Sheet,
@@ -10,6 +12,7 @@ import {
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { CartDrawerItem } from "./cart-drawer-item";
 
 interface Props {
   className?: string;
@@ -29,7 +32,119 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
             В корзине <span className="font-bold">3 товара</span>
           </SheetTitle>
         </SheetHeader>
-        {"items"}
+        <div className="-mx-6 mt-5 overflow-auto flex-1">
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
+            <CartDrawerItem
+              id={3}
+              quantity={3}
+              details="cdd"
+              imageUrl=""
+              name="kjhj"
+              price={500}
+              disabled
+            />
+          </div>
+        </div>
+
         <SheetFooter className="-mx-6 bg-white p-8">
           <div className="w-full">
             <div className="flex mb-4">
@@ -51,4 +166,3 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
     </Sheet>
   );
 };
-// 10:40:25
