@@ -7,7 +7,7 @@ export async function PATCH(
 ) {
   try {
     const id = Number(params.id);
-    const body = await req.json();
+    const data = (await req.json()) as { quantity: number };
     const token = req.cookies.get("cartToken")?.value;
 
     if (!token) {
@@ -23,6 +23,17 @@ export async function PATCH(
     if (!cartItem) {
       return NextResponse.json({ error: "Cart token not found" });
     }
+
+    await prisma.cartItem.update({
+      where: {
+        id,
+      },
+      data: {
+        quantity: data.quantity,
+      },
+    });
+
+    
   } catch (error) {
     console.log("[CART_PATCH] Server error", error);
     return NextResponse.json(
@@ -31,4 +42,4 @@ export async function PATCH(
     );
   }
 }
-// 12:00:00
+// 12:01:24
