@@ -26,15 +26,28 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   children,
 }) => {
-  const [totalAmount, fetchCartItems, items] = useCartStore((state) => [
-    state.totalAmount,
-    state.fetchCartItems,
-    state.items,
-  ]);
-  console.log("items");
+  const [totalAmount, fetchCartItems, updateItemQuantity, items] = useCartStore(
+    (state) => [
+      state.totalAmount,
+      state.fetchCartItems,
+      state.updateItemQuantity,
+      state.items,
+    ]
+  );
+
   React.useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const onClickCountButton = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus"
+  ) => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
@@ -62,6 +75,9 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
                 imageUrl={item.imageUrl}
                 name={item.name}
                 price={item.price}
+                onClickCountButton={(type) =>
+                  onClickCountButton(item.id, item.quantity, type)
+                }
               />
             </div>
           ))}
