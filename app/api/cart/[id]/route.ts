@@ -32,8 +32,6 @@ export async function PATCH(
         quantity: data.quantity,
       },
     });
-
-    
   } catch (error) {
     console.log("[CART_PATCH] Server error", error);
     return NextResponse.json(
@@ -42,4 +40,3 @@ export async function PATCH(
     );
   }
 }
-// 12:01:24
