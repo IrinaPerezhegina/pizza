@@ -46,8 +46,8 @@ export default async function Home() {
                     <ProductsGroupList
                       key={category.id}
                       title={category.name}
-                      items={category.products}
                       categoryId={category.id}
+                      items={category.products}
                     />
                   )
               )}

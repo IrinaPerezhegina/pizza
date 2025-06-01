@@ -18,8 +18,8 @@ export default function HomeLayout({
       <Suspense>
         <Header />
       </Suspense>
-      {children}
       {modal}
+      {children}
     </main>
   );
 }
