@@ -17,8 +17,13 @@ interface Props {
   className?: string;
   ingredients: Ingredient[];
   items: ProductItem[];
-  onClickAddCart?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
 }
+/**
+ * Форма выбора ПИЦЦЫ
+ * @param param0
+ * @returns
+ */
 
 export const ChoosePizzaForm: React.FC<React.PropsWithChildren<Props>> = ({
   imageUrl,
@@ -26,7 +31,7 @@ export const ChoosePizzaForm: React.FC<React.PropsWithChildren<Props>> = ({
   className,
   ingredients,
   items,
-  onClickAddCart,
+  onSubmit,
 }) => {
   const {
     size,
@@ -34,6 +39,7 @@ export const ChoosePizzaForm: React.FC<React.PropsWithChildren<Props>> = ({
     setSize,
     setType,
     availableSizes,
+    currentItemId,
     selectedIngredients,
     addIngredient,
   } = usePizzaOptions(items);
@@ -49,8 +55,9 @@ export const ChoosePizzaForm: React.FC<React.PropsWithChildren<Props>> = ({
   const filteredPizzasByType = items.filter((item) => item.pizzaType === type);
 
   const handleClickAdd = () => {
-    onClickAddCart?.();
-    console.log({ size, type, selectedIngredients });
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
   };
 
   return (
@@ -98,4 +105,3 @@ export const ChoosePizzaForm: React.FC<React.PropsWithChildren<Props>> = ({
     </div>
   );
 };
-// 13:00:00

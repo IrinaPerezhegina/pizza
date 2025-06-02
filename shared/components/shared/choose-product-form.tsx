@@ -6,19 +6,24 @@ import { Title } from "./title";
 interface Props {
   imageUrl: string;
   name: string;
+  price: number;
   className?: string;
-  onClickAdd?: VoidFunction;
+  onSubmit?: VoidFunction;
 }
+
+/**
+ * Форма выбора ПРОДУКТА
+ * @param param0
+ * @returns
+ */
 
 export const ChooseProductForm: React.FC<React.PropsWithChildren<Props>> = ({
   imageUrl,
   name,
+  price,
   className,
-
-  onClickAdd,
+  onSubmit,
 }) => {
-  const textDetails = "30 см, традиционное тесто 30";
-  const totalPrice = 500;
   return (
     <div className={cn(className, "flex flex-1")}>
       <div
@@ -33,13 +38,13 @@ export const ChooseProductForm: React.FC<React.PropsWithChildren<Props>> = ({
 
       <div className="w-[490px] bg-[#f7f6f5] p-7">
         <Title text={name} size="md" className="font-extrabold mb-1" />
-        <p className="text-gray-400">{textDetails}</p>
+
         <Button
           // loading={loading}
-          // onClick={}
+          onClick={onSubmit}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
         >
-          Добавить в карзину за {totalPrice} ₽
+          Добавить в карзину за {price} ₽
         </Button>
       </div>
     </div>
