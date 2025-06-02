@@ -45,7 +45,7 @@ export default async function ProductPage({
           />
           <p className="text-gray-400">info</p>
           <GroupVariants
-            selectedValue="2"
+            value="2"
             items={[
               {
                 name: "Маленькая",

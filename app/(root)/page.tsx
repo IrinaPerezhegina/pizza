@@ -6,6 +6,7 @@ import {
   Title,
   TopBar,
 } from "@/shared/components/shared";
+import { Suspense } from "react";
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
@@ -34,7 +35,9 @@ export default async function Home() {
         <div className="flex gap-[70px]">
           {/*Фильтрация  */}
           <div className="w-[250px]">
-            <Filters />
+            <Suspense>
+              <Filters />
+            </Suspense>
           </div>
 
           {/*Список товаров   */}
@@ -58,3 +61,4 @@ export default async function Home() {
     </>
   );
 }
+// 14:01:18
