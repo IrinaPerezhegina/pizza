@@ -86,21 +86,22 @@ export async function POST(req: NextRequest) {
 
       resp.cookies.set("cartToken", token);
       return resp;
+    } else {
+      // Если товар был не найден
+      await prisma.cartItem.create({
+        data: {
+          cartId: userCart.id,
+          productItemId: data.productItemId,
+          quantity: 1,
+          ingredients: {
+            connect: data.ingredients?.map((id) => ({
+              id,
+            })),
+          },
+        },
+      });
     }
 
-    // Если товар был не найден
-    await prisma.cartItem.create({
-      data: {
-        cartId: userCart.id,
-        productItemId: data.productItemId,
-        quantity: 1,
-        ingredients: {
-          connect: data.ingredients?.map((id) => ({
-            id,
-          })),
-        },
-      },
-    });
     const updatedUserCart = await updateCartTotalAmount(token);
     return NextResponse.json(updatedUserCart);
   } catch (error) {
