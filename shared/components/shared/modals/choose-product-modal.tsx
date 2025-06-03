@@ -25,24 +25,6 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
     state.loading,
   ]);
 
-  const onAddProduct = () => {
-    addCartItem({
-      productItemId: firstItem.id,
-    });
-  };
-  const onAddPizza = async (productItemId: number, ingredients: number[]) => {
-    try {
-      await addCartItem({
-        productItemId,
-        ingredients,
-      });
-      toast.success("Пицца добавлена в корзину");
-      router.back();
-    } catch (error) {
-      toast.error("Не удалось добавить пиццу в корзину");
-      console.error(error);
-    }
-  };
   const onSubmit = async (productItemId?: number, ingredients?: number[]) => {
     try {
       const itemId = productItemId ?? firstItem.id;
