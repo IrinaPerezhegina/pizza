@@ -11,9 +11,9 @@ import {
   SheetTrigger,
 } from "@/shared/components/ui";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { useCart } from "@/shared/hooks";
 import { getCartItemDetails } from "@/shared/lib";
 import { cn } from "@/shared/lib/utils";
-import { useCartStore } from "@/shared/store";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,32 +21,8 @@ import * as React from "react";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { Title } from "./title";
 
-interface Props {
-  className?: string;
-  children: React.ReactNode;
-}
-
-export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
-  className,
-  children,
-}) => {
-  const [
-    totalAmount,
-    items,
-    fetchCartItems,
-    updateItemQuantity,
-    removeCartItem,
-  ] = useCartStore((state) => [
-    state.totalAmount,
-    state.items,
-    state.fetchCartItems,
-    state.updateItemQuantity,
-    state.removeCartItem,
-  ]);
-
-  React.useEffect(() => {
-    fetchCartItems();
-  }, []);
+export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const { items, removeCartItem, totalAmount, updateItemQuantity } = useCart();
 
   const onClickCountButton = (
     id: number,
@@ -70,7 +46,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
           {totalAmount > 0 && (
             <SheetHeader>
               <SheetTitle>
-                В корзине{" "}
+                В корзине
                 <span className="font-bold">{items.length} товара</span>
               </SheetTitle>
             </SheetHeader>
@@ -102,7 +78,6 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
           )}
           {totalAmount > 0 && (
             <>
-              (
               <div className="-mx-6 mt-5 overflow-auto flex-1">
                 {items.map((item) => (
                   <div className="mb-2" key={item.id}>
@@ -147,13 +122,10 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
                   </Link>
                 </div>
               </SheetFooter>
-              )
             </>
           )}
         </div>
-        
       </SheetContent>
     </Sheet>
   );
 };
-// 15:32:06

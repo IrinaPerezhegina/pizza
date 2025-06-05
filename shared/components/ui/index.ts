@@ -16,3 +16,4 @@ export {
 } from "./sheet";
 export { Skeleton } from "./skeleton";
 export { Slider } from "./slider";
+export { Textarea } from "./textarea";
