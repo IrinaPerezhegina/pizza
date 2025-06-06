@@ -10,7 +10,7 @@ import { CartItemInfo } from "./cart item details/cart-item-info";
 export interface Props extends CartItemProps {
   onClickRemove?: () => void;
   onClickCountButton?: (type: "plus" | "minus") => void;
-  className: string;
+  className?: string;
 }
 
 export const CheckoutItem: React.FC<Props> = ({
@@ -19,12 +19,19 @@ export const CheckoutItem: React.FC<Props> = ({
   details,
   name,
   price,
+  disabled,
   quantity,
   onClickRemove,
   onClickCountButton,
 }) => {
   return (
-    <div className={cn("flex items-center justify-between", className)}>
+    <div
+      className={cn(
+        "flex items-center justify-between",
+        { "opacity-50 pointer-events-none": disabled },
+        className
+      )}
+    >
       <div className="flex items-center gap-5 flex-1">
         <CartItemDetailsImage src={imageUrl} />
         <CartItemInfo name={name} details={details} />

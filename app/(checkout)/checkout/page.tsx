@@ -8,7 +8,9 @@ import {
   WhiteBlock,
 } from "@/shared/components/shared";
 import { Button, Input, Textarea } from "@/shared/components/ui";
+import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
 import { useCart } from "@/shared/hooks";
+import { getCartItemDetails } from "@/shared/lib";
 import { ArrowRight, Package, Percent, Truck } from "lucide-react";
 
 export default function CheckoutPage() {
@@ -20,6 +22,14 @@ export default function CheckoutPage() {
     totalAmount,
     updateItemQuantity,
   } = useCart();
+  const onClickCountButton = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus"
+  ) => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
 
   return (
     <Container className="mt-10">
@@ -37,15 +47,19 @@ export default function CheckoutPage() {
                   key={item.id}
                   id={item.id}
                   imageUrl={item.imageUrl}
-                  details={item.ingredients}
-                  // 16:20:08
-                  name="Пицца"
-                  price={45}
+                  details={getCartItemDetails(
+                    item.ingredients,
+                    item.pizzaType as PizzaType,
+                    item.pizzaSize as PizzaSize
+                  )}
+                  name={item.name}
+                  disabled={item.disabled}
+                  price={item.price}
                   onClickCountButton={(type) =>
-                    updateItemQuantity(item.id, item.quantity, type)
+                    onClickCountButton(item.id, item.quantity, type)
                   }
                   onClickRemove={() => removeCartItem(item.id)}
-                  quantity={3}
+                  quantity={item.quantity}
                 />
               ))}
             </div>

@@ -23,7 +23,7 @@ import { Title } from "./title";
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { items, removeCartItem, totalAmount, updateItemQuantity } = useCart();
-
+  const [redirecting, setRedirecting] = React.useState(false);
   const onClickCountButton = (
     id: number,
     quantity: number,
@@ -85,15 +85,11 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                       disabled={item.disabled}
                       id={item.id}
                       quantity={item.quantity}
-                      details={
-                        item.pizzaSize && item.pizzaType
-                          ? getCartItemDetails(
-                              item.ingredients,
-                              item.pizzaType as PizzaType,
-                              item.pizzaSize as PizzaSize
-                            )
-                          : ""
-                      }
+                      details={getCartItemDetails(
+                        item.ingredients,
+                        item.pizzaType as PizzaType,
+                        item.pizzaSize as PizzaSize
+                      )}
                       imageUrl={item.imageUrl}
                       name={item.name}
                       price={item.price}
@@ -114,8 +110,13 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                     </span>
                     <span className="font-bold text-lg">{totalAmount} ₽</span>
                   </div>
-                  <Link href={"/cart"}>
-                    <Button type="submit" className="w-full h-12 text-base">
+                  <Link href={"/checkout"}>
+                    <Button
+                      loading={redirecting}
+                      onClick={() => setRedirecting(true)}
+                      type="submit"
+                      className="w-full h-12 text-base"
+                    >
                       Оформить заказ
                       <ArrowRight className="w-5 ml-2" />
                     </Button>
