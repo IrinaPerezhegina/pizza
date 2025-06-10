@@ -1,11 +1,11 @@
 import { cn } from "@/shared/lib/utils";
 import { X } from "lucide-react";
 import React from "react";
-import { CartItemDetailsCountButton } from "./cart item details/cart-item-details-count-button";
-import { CartItemDetailsImage } from "./cart item details/cart-item-details-image";
-import { CartItemDetailsPrice } from "./cart item details/cart-item-details-price";
-import { CartItemProps } from "./cart item details/cart-item-details.types";
-import { CartItemInfo } from "./cart item details/cart-item-info";
+import { CartItemDetailsCountButton } from "./cart-item-details/cart-item-details-count-button";
+import { CartItemDetailsImage } from "./cart-item-details/cart-item-details-image";
+import { CartItemDetailsPrice } from "./cart-item-details/cart-item-details-price";
+import { CartItemProps } from "./cart-item-details/cart-item-details.types";
+import { CartItemInfo } from "./cart-item-details/cart-item-info";
 
 export interface Props extends CartItemProps {
   onClickRemove?: () => void;
