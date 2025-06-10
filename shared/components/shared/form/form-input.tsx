@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useFormContext } from "react-hook-form";
 import { Input } from "../../ui";
 import { ClearButton } from "../clear-button";
 import { ErrorText } from "../error-text";
@@ -20,6 +21,12 @@ export const FormInput: React.FC<Props> = ({
   className,
   ...props
 }) => {
+  const {
+    register,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useFormContext();
   return (
     <div className={className}>
       {label && (
