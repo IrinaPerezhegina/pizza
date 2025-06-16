@@ -1,5 +1,6 @@
 "use client";
 
+import { createOrder } from "@/app/actions";
 import {
   CheckoutAddressForm,
   CheckoutCart,
@@ -10,8 +11,11 @@ import {
 } from "@/shared/components";
 import { checkoutFormSchema, CheckoutFormValues } from "@/shared/constants";
 import { useCart } from "@/shared/hooks";
+import { cn } from "@/shared/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function CheckoutPage() {
   const {
@@ -22,6 +26,8 @@ export default function CheckoutPage() {
     totalAmount,
     updateItemQuantity,
   } = useCart();
+
+  const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -34,10 +40,29 @@ export default function CheckoutPage() {
       comment: "",
     },
   });
-  const onSubmit: SubmitHandler<CheckoutFormValues> = (data) => {
-    console.log(data);
-  };
+  const onSubmit: SubmitHandler<CheckoutFormValues> = async (
+    data: CheckoutFormValues
+  ) => {
+    try {
+      setSubmitting(true);
+      const url = await createOrder(data);
+      toast.error("Заказ успешно оформлен! 📝 Переход на оплату... ", {
+        icon: "✅",
+      });
 
+      if (url !== undefined) {
+        location.href = url;
+      }
+    } catch (error) {
+      setSubmitting(false);
+      console.log(error);
+
+      toast.error("Не удалось создать заказ!", {
+        icon: "❌",
+      });
+    }
+  };
+  // 18:00:00
   const onClickCountButton = (
     id: number,
     quantity: number,
@@ -59,16 +84,24 @@ export default function CheckoutPage() {
             {/* левая часть */}
             <div className="flex flex-col gap-10 flex-1 mb-20">
               <CheckoutCart
+                loading={loading}
                 items={items}
                 onClickCountButton={onClickCountButton}
                 removeCartItem={removeCartItem}
               />
-              <CheckoutPersonalForm />
-              <CheckoutAddressForm />
+              <CheckoutPersonalForm
+                className={cn({ "opacity-40 pointer-events-none": loading })}
+              />
+              <CheckoutAddressForm
+                className={cn({ "opacity-40 pointer-events-none": loading })}
+              />
             </div>
             {/* правая часть */}
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} />
+              <CheckoutSidebar
+                loading={submitting || loading}
+                totalAmount={totalAmount}
+              />
             </div>
           </div>
         </form>
