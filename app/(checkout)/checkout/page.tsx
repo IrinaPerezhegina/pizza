@@ -3,13 +3,12 @@
 import {
   CheckoutAddressForm,
   CheckoutCart,
-  checkoutFormSchema,
-  CheckoutFormValues,
   CheckoutPersonalForm,
   CheckoutSidebar,
   Container,
   Title,
-} from "@/shared/components/shared";
+} from "@/shared/components";
+import { checkoutFormSchema, CheckoutFormValues } from "@/shared/constants";
 import { useCart } from "@/shared/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";

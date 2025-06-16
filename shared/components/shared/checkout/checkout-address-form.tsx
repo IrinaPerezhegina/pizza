@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Input, Textarea } from "../../ui";
 import { WhiteBlock } from "../white-block";
