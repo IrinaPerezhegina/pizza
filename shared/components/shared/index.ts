@@ -15,6 +15,7 @@ export { ClearButton } from "./clear-button";
 export { Container } from "./container";
 export { CountButton } from "./count-button";
 export { CountIconButton } from "./count-icon-button";
+export * from "./email-templates";
 export { ErrorText } from "./error-text";
 export { FilterCheckbox } from "./filter-checkbox";
 export { Filters } from "./filters";

@@ -62,7 +62,7 @@ export default function CheckoutPage() {
       });
     }
   };
-  // 18:00:00
+
   const onClickCountButton = (
     id: number,
     quantity: number,
