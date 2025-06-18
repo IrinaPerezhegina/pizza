@@ -1,5 +1,6 @@
 export { calcCartItemTotalPrice } from "./calc-cart-item-total-price";
 export { calcTotalPizzaPrice } from "./calc-total-pizza-price";
+export { createPayment } from "./create-payment";
 export { findOrCreateCart } from "./find-or-create-cart";
 export { findPizzas } from "./find-pizzas";
 export { getAvailablePizzaSizes } from "./get-available-pizza-sizes";
