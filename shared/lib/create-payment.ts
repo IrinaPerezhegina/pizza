@@ -27,10 +27,11 @@ export async function createPayment(details: Props) {
     },
     {
       auth: {
-        username: process.env.YOOMONEY_API_KEY as string,
-        password: "",
+        username: process.env.YOOKASSA_STORE_ID as string,
+        password: process.env.YOOMONEY_API_KEY as string,
       },
       headers: {
+        "Content-Type": "application/json",
         "Idempotence-Key": Math.random().toString(36).substring(7),
       },
     }
