@@ -28,6 +28,7 @@ export { PizzaImage } from "./pizza-image";
 export { ProductCard } from "./product-card";
 export { ProductForm } from "./product-form";
 export { ProductsGroupList } from "./products-group-list";
+export { Providers } from "./providers";
 export { RangeSlider } from "./range-slider";
 export { RequiredSymbol } from "./required-symbol";
 export { SearchInput } from "./search-input";

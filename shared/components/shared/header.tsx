@@ -1,8 +1,13 @@
+"use client";
+
 import { cn } from "@/shared/lib/utils";
 import { User } from "lucide-react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import * as React from "react";
+import toast from "react-hot-toast";
 import { Button } from "../ui";
 import { CartButton } from "./cart-button";
 import { Container } from "./container";
@@ -19,6 +24,18 @@ export const Header: React.FC<Props> = ({
   hasSearch = true,
   className,
 }) => {
+  const { data: session } = useSession();
+  console.log(session);
+
+  const searchParams = useSearchParams();
+  React.useEffect(() => {
+    if (searchParams.has("paid")) {
+      setTimeout(() => {
+        toast.success("Заказ успешно оплачен! Информация отправлена на почту.");
+      }, 500);
+    }
+  }, []);
+
   return (
     <header className={cn("border-b ", className)}>
       <Container className="flex items-center justify-between py-8">
@@ -47,7 +64,13 @@ export const Header: React.FC<Props> = ({
         )}
         {/* Правая часть */}
         <div className="flex items-center gap-3">
-          <Button variant={"outline"} className="flex items-center gap-1">
+          <Button
+            onClick={() =>
+              signIn("github", { callbackUrl: "/", redirect: true })
+            }
+            variant={"outline"}
+            className="flex items-center gap-1"
+          >
             <User size={16} />
             Войти
           </Button>
