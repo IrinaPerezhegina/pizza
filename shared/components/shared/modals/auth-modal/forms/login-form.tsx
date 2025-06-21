@@ -1,7 +1,9 @@
 import { Button } from "@/shared/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import * as React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FormInput } from "../../../form";
 import { Title } from "../../../title";
 import { formLoginSchema, TFormLoginValues } from "./schemas";
@@ -19,11 +21,28 @@ export const LoginForm: React.FC<Props> = ({ onClose, className }) => {
       password: "",
     },
   });
-  // 20:37:10
-  const onSubmit = (data: TFormLoginValues) => {
+
+  const onSubmit = async (data: TFormLoginValues) => {
     try {
-    } catch (error) {}
+      const resp = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+      if (!resp?.ok) {
+        throw Error();
+      }
+      toast.success("Вы успешно вошли в аккаунт", {
+        icon: "✅",
+      });
+      onClose?.();
+    } catch (error) {
+      console.error("Error [LOGIN]", error);
+      toast.error("Не удалось войти в аккаунт", {
+        icon: "❌",
+      });
+    }
   };
+
   return (
     <FormProvider {...form}>
       <form
