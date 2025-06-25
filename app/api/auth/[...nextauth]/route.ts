@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/prisma-client";
 import { UserRole } from "@prisma/client";
-import { compare } from "bcrypt";
+import { compare, hashSync } from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
@@ -92,8 +92,18 @@ export const authOptions = {
               providerId: account.providerAccountId,
             },
           });
+          return true;
         }
-        // 21:07:03
+        await prisma.user.create({
+          data: {
+            email: user.email,
+            fullName: user.name || "USER #" + user.id,
+            password: hashSync(user.id.toString(), 10),
+            verified: new Date(),
+            provider: account.provider,
+            providerId: account.providerAccountId,
+          },
+        });
       } catch (error) {
         console.error("Error [SIGNIN]", error);
       }
