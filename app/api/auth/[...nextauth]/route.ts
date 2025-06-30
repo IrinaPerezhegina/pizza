@@ -1,10 +1,10 @@
 import { prisma } from "@/prisma/prisma-client";
 import { UserRole } from "@prisma/client";
 import { compare, hashSync } from "bcrypt";
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID || "",
@@ -49,7 +49,7 @@ export const authOptions = {
           return null;
         }
         return {
-          id: String(findUser.id),
+          id: findUser.id,
           email: findUser.email,
           name: findUser.fullName,
           role: findUser.role,
@@ -67,7 +67,7 @@ export const authOptions = {
         if (account?.provider === "credentials") {
           return true;
         }
-        if (!user.email) {
+        if (!user?.email) {
           return false;
         }
         const findUser = await prisma.user.findFirst({
@@ -75,9 +75,9 @@ export const authOptions = {
             OR: [
               {
                 provider: account?.provider,
-                providerId: account.providerAccountId,
+                providerId: account?.providerAccountId,
               },
-              { email: user.email },
+              { email: user?.email },
             ],
           },
         });
@@ -88,8 +88,8 @@ export const authOptions = {
               id: findUser.id,
             },
             data: {
-              provider: account.provider,
-              providerId: account.providerAccountId,
+              provider: account?.provider,
+              providerId: account?.providerAccountId,
             },
           });
           return true;
@@ -100,15 +100,19 @@ export const authOptions = {
             fullName: user.name || "USER #" + user.id,
             password: hashSync(user.id.toString(), 10),
             verified: new Date(),
-            provider: account.provider,
-            providerId: account.providerAccountId,
+            provider: account?.provider,
+            providerId: account?.providerAccountId,
           },
         });
+        return true;
       } catch (error) {
         console.error("Error [SIGNIN]", error);
       }
     },
     async jwt({ token }) {
+      if (!token.email) {
+        return token;
+      }
       const findUser = await prisma.user.findFirst({
         where: {
           email: token.email,
