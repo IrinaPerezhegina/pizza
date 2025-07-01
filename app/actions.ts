@@ -4,7 +4,7 @@ import { prisma } from "@/prisma/prisma-client";
 import { PayOrderTemplate } from "@/shared/components";
 import { CheckoutFormValues } from "@/shared/constants";
 import { createPayment, sendEmail } from "@/shared/lib";
-import { OrderStatus } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 
 export async function createOrder(data: CheckoutFormValues) {
@@ -110,5 +110,14 @@ export async function createOrder(data: CheckoutFormValues) {
     return paymentUrl;
   } catch (error) {
     console.log("[CreateOrder] Server error", error);
+  }
+}
+
+export async function updateUserInfo(body: Prisma.UserCreateInput) {
+  try {
+    
+  } catch (error) {
+    console.log("Error [UPDATE_USER]", error);
+    throw error;
   }
 }

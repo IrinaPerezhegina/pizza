@@ -1,8 +1,21 @@
-"use client";
-
-import { Container } from "@/shared/components/shared";
+import { prisma } from "@/prisma/prisma-client";
+import { ProfileForm } from "@/shared/components";
+import { getUserSession } from "@/shared/lib";
+import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
-  // 21:18:49
-  return <Container className="flex flex-col my-10">profile</Container>;
+  const session = await getUserSession();
+  if (!session) {
+    return redirect("/not-auth");
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: Number(session.id),
+    },
+  });
+  if (!user) {
+    return redirect("/not-auth");
+  }
+  return <ProfileForm data={user} />;
 }
