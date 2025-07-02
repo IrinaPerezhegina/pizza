@@ -1,5 +1,5 @@
 import { prisma } from "@/prisma/prisma-client";
-import { updateCartTotalAmount } from "@/shared/lib";
+import { updateCartTotalAmount } from "@/shared/lib/update-cart-total-amount";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -22,7 +22,7 @@ export async function PATCH(
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Cart token not found" });
+      return NextResponse.json({ error: "Cart item not found" });
     }
 
     await prisma.cartItem.update({
@@ -33,7 +33,9 @@ export async function PATCH(
         quantity: data.quantity,
       },
     });
+
     const updatedUserCart = await updateCartTotalAmount(token);
+
     return NextResponse.json(updatedUserCart);
   } catch (error) {
     console.log("[CART_PATCH] Server error", error);
@@ -58,20 +60,22 @@ export async function DELETE(
 
     const cartItem = await prisma.cartItem.findFirst({
       where: {
-        id,
+        id: Number(params.id),
       },
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Cart token not found" });
+      return NextResponse.json({ error: "Cart item not found" });
     }
 
     await prisma.cartItem.delete({
       where: {
-        id,
+        id: Number(params.id),
       },
     });
+
     const updatedUserCart = await updateCartTotalAmount(token);
+
     return NextResponse.json(updatedUserCart);
   } catch (error) {
     console.log("[CART_DELETE] Server error", error);

@@ -1,35 +1,36 @@
 "use client";
 
+import { updateUserInfo } from "@/app/actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
-import * as React from "react";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Button } from "../ui";
 import { Container } from "./container";
 import { FormInput } from "./form";
 import {
-  formRegisterSchema,
   TFormRegisterValues,
+  formRegisterSchema,
 } from "./modals/auth-modal/forms/schemas";
 import { Title } from "./title";
 
 interface Props {
   data: User;
-  className?: string;
 }
 
 export const ProfileForm: React.FC<Props> = ({ data }) => {
   const form = useForm({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
-      fullname: data.fullName,
+      fullName: data.fullName,
       email: data.email,
       password: "",
       confirmPassword: "",
     },
   });
+
   const onSubmit = async (data: TFormRegisterValues) => {
     try {
       await updateUserInfo({
@@ -53,6 +54,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
       callbackUrl: "/",
     });
   };
+
   return (
     <Container className="my-10">
       <Title
@@ -70,24 +72,26 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
           <FormInput name="fullName" label="Полное имя" required />
 
           <FormInput
-            name="password"
             type="password"
+            name="password"
             label="Новый пароль"
             required
           />
           <FormInput
             type="password"
             name="confirmPassword"
-            label="ПОвторите пароль"
+            label="Повторите пароль"
             required
           />
+
           <Button
             disabled={form.formState.isSubmitting}
             className="text-base mt-10"
             type="submit"
           >
-            Выйти
+            Сохранить
           </Button>
+
           <Button
             onClick={onClickSignOut}
             variant="secondary"

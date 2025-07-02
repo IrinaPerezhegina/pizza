@@ -3,7 +3,7 @@
 import { cn } from "@/shared/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import toast from "react-hot-toast";
 import { CartButton } from "./cart-button";
@@ -24,13 +24,24 @@ export const Header: React.FC<Props> = ({
   className,
 }) => {
   const [openAuthModal, setOpenAuthModal] = React.useState(false);
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   React.useEffect(() => {
+    let toastMessage = "";
     if (searchParams.has("paid")) {
+      toastMessage = "Заказ успешно оплачен! Информация отправлена на почту.";
+    }
+
+    if (searchParams.has("verified")) {
+      toastMessage = "Пoчта успешно подтверждена!";
+    }
+    if (toastMessage) {
       setTimeout(() => {
-        toast.success("Заказ успешно оплачен! Информация отправлена на почту.");
-      }, 500);
+        router.replace("/");
+        toast.success(toastMessage, {
+          duration: 3000,
+        });
+      }, 1000);
     }
   }, []);
 
