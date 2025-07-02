@@ -1,12 +1,18 @@
-import { prisma } from "@/prisma/prisma-client";
-import { UserRole } from "@prisma/client";
-import bcrypt from "bcryptjs";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+
+import { prisma } from "@/prisma/prisma-client";
+import { UserRole } from "@prisma/client";
+import { compare, hashSync } from "bcrypt";
 
 export const authOptions: AuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
@@ -30,25 +36,32 @@ export const authOptions: AuthOptions = {
         if (!credentials) {
           return null;
         }
+
         const values = {
           email: credentials.email,
         };
+
         const findUser = await prisma.user.findFirst({
           where: values,
         });
+
         if (!findUser) {
           return null;
         }
-        const isPasswordValid = await bcrypt.compare(
+
+        const isPasswordValid = await compare(
           credentials.password,
           findUser.password
         );
+
         if (!isPasswordValid) {
           return null;
         }
+
         if (!findUser.verified) {
           return null;
         }
+
         return {
           id: findUser.id,
           email: findUser.email,
@@ -68,9 +81,11 @@ export const authOptions: AuthOptions = {
         if (account?.provider === "credentials") {
           return true;
         }
-        if (!user?.email) {
+
+        if (!user.email) {
           return false;
         }
+
         const findUser = await prisma.user.findFirst({
           where: {
             OR: [
@@ -78,7 +93,7 @@ export const authOptions: AuthOptions = {
                 provider: account?.provider,
                 providerId: account?.providerAccountId,
               },
-              { email: user?.email },
+              { email: user.email },
             ],
           },
         });
@@ -93,38 +108,45 @@ export const authOptions: AuthOptions = {
               providerId: account?.providerAccountId,
             },
           });
+
           return true;
         }
+
         await prisma.user.create({
           data: {
             email: user.email,
-            fullName: user.name || "USER #" + user.id,
-            password: bcrypt.hashSync(user.id.toString(), 10),
+            fullName: user.name || "User #" + user.id,
+            password: hashSync(user.id.toString(), 10),
             verified: new Date(),
             provider: account?.provider,
             providerId: account?.providerAccountId,
           },
         });
+
         return true;
       } catch (error) {
         console.error("Error [SIGNIN]", error);
+        return false;
       }
     },
     async jwt({ token }) {
       if (!token.email) {
         return token;
       }
+
       const findUser = await prisma.user.findFirst({
         where: {
           email: token.email,
         },
       });
+
       if (findUser) {
         token.id = String(findUser.id);
         token.email = findUser.email;
-        token.name = findUser.fullName;
+        token.fullName = findUser.fullName;
         token.role = findUser.role;
       }
+
       return token;
     },
     session({ session, token }) {
@@ -132,6 +154,7 @@ export const authOptions: AuthOptions = {
         session.user.id = token.id;
         session.user.role = token.role;
       }
+
       return session;
     },
   },

@@ -2,7 +2,9 @@ import { prisma } from "@/prisma/prisma-client";
 import { getUserSession } from "@/shared/lib";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+
+export async function GET(req: any, res: any) {
   try {
     const user = await getUserSession();
     if (!user) {
