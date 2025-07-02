@@ -2,6 +2,7 @@ import { prisma } from "@/prisma/prisma-client";
 import { ProfileForm } from "@/shared/components";
 import { getUserSession } from "@/shared/lib";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function ProfilePage() {
   const session = await getUserSession();
@@ -17,5 +18,9 @@ export default async function ProfilePage() {
   if (!user) {
     return redirect("/not-auth");
   }
-  return <ProfileForm data={user} />;
+  return (
+    <Suspense>
+      <ProfileForm data={user} />
+    </Suspense>
+  );
 }
