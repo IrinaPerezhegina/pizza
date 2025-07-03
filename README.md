@@ -1,2 +1,2 @@
 Ссылка на проект :
-*https://pizza-two-gules.vercel.app/
+https://pizza-two-gules.vercel.app/
