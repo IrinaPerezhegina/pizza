@@ -15,7 +15,7 @@ import { cn } from "@/shared/lib/utils";
 import { Api } from "@/shared/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -43,13 +43,14 @@ export default function CheckoutPage() {
     },
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     async function fetchUserInfo() {
       const data = await Api.auth.getMe();
-      const [firstName, lastName] = data.fullName.split(" ");
+      const [firstName, lastName] = data?.fullName.split(" ");
+
       form.setValue("firstName", firstName);
       form.setValue("lastName", lastName);
-      form.setValue("email", data.email);
+      form.setValue("email", data?.email);
     }
 
     if (session) {
@@ -95,34 +96,36 @@ export default function CheckoutPage() {
         text="Оформление заказа"
         className="font-extrabold mb-8 text-[36px]"
       />
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex gap-10">
-            {/* левая часть */}
-            <div className="flex flex-col gap-10 flex-1 mb-20">
-              <CheckoutCart
-                loading={loading}
-                items={items}
-                onClickCountButton={onClickCountButton}
-                removeCartItem={removeCartItem}
-              />
-              <CheckoutPersonalForm
-                className={cn({ "opacity-40 pointer-events-none": loading })}
-              />
-              <CheckoutAddressForm
-                className={cn({ "opacity-40 pointer-events-none": loading })}
-              />
+      <Suspense>
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex gap-10">
+              {/* левая часть */}
+              <div className="flex flex-col gap-10 flex-1 mb-20">
+                <CheckoutCart
+                  loading={loading}
+                  items={items}
+                  onClickCountButton={onClickCountButton}
+                  removeCartItem={removeCartItem}
+                />
+                <CheckoutPersonalForm
+                  className={cn({ "opacity-40 pointer-events-none": loading })}
+                />
+                <CheckoutAddressForm
+                  className={cn({ "opacity-40 pointer-events-none": loading })}
+                />
+              </div>
+              {/* правая часть */}
+              <div className="w-[450px]">
+                <CheckoutSidebar
+                  loading={submitting || loading}
+                  totalAmount={totalAmount}
+                />
+              </div>
             </div>
-            {/* правая часть */}
-            <div className="w-[450px]">
-              <CheckoutSidebar
-                loading={submitting || loading}
-                totalAmount={totalAmount}
-              />
-            </div>
-          </div>
-        </form>
-      </FormProvider>
+          </form>
+        </FormProvider>
+      </Suspense>
     </Container>
   );
 }
