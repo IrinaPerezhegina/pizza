@@ -1,6 +1,6 @@
 import { PaymentCallbackData } from "@/@types/yookassa";
 import { prisma } from "@/prisma/prisma-client";
-import { OrderSuccesTemplate } from "@/shared/components";
+import { OrderSuccessTemplate } from "@/shared/components";
 import { sendEmail } from "@/shared/lib";
 import { CartItemDTO } from "@/shared/services/dto/cart.dto";
 import { OrderStatus } from "@prisma/client";
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       await sendEmail(
         order.email,
         "Next Pizza / Ваш заказ успешно оформлен 🎉",
-        OrderSuccesTemplate({ orderId: order.id, items })
+        OrderSuccessTemplate({ orderId: order.id, items })
       );
     } else {
       // Письмо о неуспешной оплате
