@@ -127,12 +127,12 @@ model Order {
 
     items Json
 
-    fullName String
-    address  String
-    email    String
-    phone    String
-    comment  String?
-
+    fullName  String
+    address   String
+    email     String
+    phone     String
+    comment   String?
+    isSent    Boolean  @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

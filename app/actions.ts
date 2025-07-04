@@ -62,6 +62,7 @@ export async function createOrder(data: CheckoutFormValues) {
         totalAmount: userCart.totalAmount,
         status: OrderStatus.PENDING,
         items: JSON.stringify(userCart.items),
+        isSent: false,
       },
     });
 
@@ -101,6 +102,7 @@ export async function createOrder(data: CheckoutFormValues) {
     });
 
     const paymentUrl = paymentData.confirmation.confirmation_url;
+
 
     await sendEmail(
       data.email,
