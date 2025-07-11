@@ -12,7 +12,7 @@ export const updateItemQuantity = async (
   const { data } = await axiosInstance.patch<CartDTO>("/cart/" + id, {
     quantity,
     
-      });
+  });
   return data;
 };
 
